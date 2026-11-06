@@ -1,33 +1,52 @@
 import feedparser
 import json
 import os
+import re
 
 # Anime News Network RSS Feed
 RSS_URL = "https://www.animenewsnetwork.com/all/rss.xml"
+
+def extract_image(entry):
+    # Try to find an image in the entry media or content/summary html
+    image_url = ""
+    
+    # 1. Check media:content or media:thumbnail if present
+    if 'media_content' in entry and len(entry.media_content) > 0:
+        image_url = entry.media_content[0].get('url', '')
+    elif 'media_thumbnail' in entry and len(entry.media_thumbnail) > 0:
+        image_url = entry.media_thumbnail[0].get('url', '')
+        
+    # 2. If not found, look inside summary or content for an <img> tag
+    if not image_url and 'summary' in entry:
+        img_match = re.search(r'<img[^>]+src="([^">]+)"', entry.summary)
+        if img_match:
+            image_url = img_match.group(1)
+            
+    return image_url
 
 def fetch_news():
     print("Fetching latest anime news from Anime News Network...")
     feed = feedparser.parse(RSS_URL)
     
     articles = []
-    # Grab up to the latest 10 articles
     for entry in feed.entries[:10]:
-        # Shorten and clean up summary if needed
         summary = entry.get("summary", "Read the full update on Anime News Network.")
-        # Strip simple HTML tags if present in RSS summary
+        
+        # Strip simple HTML tags from summary text
         if "<" in summary and ">" in summary:
-            import re
             summary = re.sub('<[^<]+?>', '', summary)
         
-        # Keep it short as requested
-        if len(summary) > 180:
-            summary = summary[:177] + "..."
+        if len(summary) > 160:
+            summary = summary[:157] + "..."
+
+        image_url = extract_image(entry)
 
         articles.append({
             "title": entry.title,
             "link": entry.link,
             "published": entry.get("published", "Recent"),
-            "summary": summary
+            "summary": summary,
+            "image": image_url
         })
         
     return articles
@@ -41,20 +60,23 @@ def update_html(articles):
     with open(html_path, "r", encoding="utf-8") as f:
         content = f.read()
 
-    # Generate the news cards HTML
+    # Generate the news cards HTML with image support and poster styling
     cards_html = ""
     for art in articles:
+        img_tag = f'<div class="news-img-container"><img src="{art["image"]}" alt="News thumbnail" loading="lazy"></div>' if art['image'] else ''
+        
         cards_html += f"""
         <div class="news-card">
-            <div class="news-meta">{art['published']}</div>
-            <a href="{art['link']}" target="_blank" class="news-title">{art['title']}</a>
-            <p class="news-summary">{art['summary']}</p>
+            {img_tag}
+            <div class="news-content-box">
+                <div class="news-meta">{art['published']}</div>
+                <a href="{art['link']}" target="_blank" class="news-title">{art['title']}</a>
+                <p class="news-summary">{art['summary']}</p>
+            </div>
         </div>
         """
 
-    # Replace the placeholder or old feed in index.html
-    # We look for the main element tag content
-    marker_start = '<main id="news-feed">'
+    marker_start = '<main id="news-feed" class="news-grid">'
     marker_end = '</main>'
     
     start_idx = content.find(marker_start)
@@ -68,7 +90,7 @@ def update_html(articles):
         )
         with open(html_path, "w", encoding="utf-8") as f:
             f.write(new_content)
-        print("Successfully updated index.html with latest news!")
+        print("Successfully updated index.html with latest news and images!")
     else:
         print("Could not find news feed container in HTML.")
 
