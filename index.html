@@ -13,7 +13,7 @@
             --accent-purple: #9333ea;
             --accent-green: #22c55e;
             --accent-pink: #ec4899;
-            --card-bg: rgba(19, 27, 48, 0.75);
+            --card-bg: rgba(19, 27, 48, 0.85);
             --text-main: #ffffff;
             --text-muted: #cbd5e1;
         }
@@ -23,7 +23,6 @@
             color: var(--text-main);
             margin: 0;
             padding: 0;
-            /* Poster grid-line background pattern inspired by your reference */
             background-image: 
                 linear-gradient(rgba(147, 51, 234, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(147, 51, 234, 0.05) 1px, transparent 1px),
@@ -37,7 +36,7 @@
             text-align: center;
             padding: 70px 20px 40px 20px;
             border-bottom: 3px solid var(--accent-purple);
-            background: rgba(13, 17, 33, 0.85);
+            background: rgba(13, 17, 33, 0.9);
             backdrop-filter: blur(12px);
             box-shadow: 0 10px 30px rgba(147, 51, 234, 0.2);
         }
@@ -71,7 +70,6 @@
             display: grid;
             gap: 30px;
         }
-        /* Poster-style Magazine Card */
         .news-card {
             background: var(--card-bg);
             backdrop-filter: blur(16px);
@@ -79,10 +77,10 @@
             border: 2px solid rgba(147, 51, 234, 0.4);
             border-radius: 16px;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            transition: all 0.3s ease;
         }
         @media(min-width: 768px) {
             .news-card {
@@ -96,15 +94,16 @@
         }
         .news-img-container {
             width: 100%;
-            max-height: 220px;
-            overflow: hidden;
+            height: 200px;
             background: #000;
+            overflow: hidden;
             flex-shrink: 0;
         }
         @media(min-width: 768px) {
             .news-img-container {
-                width: 280px;
-                max-height: none;
+                width: 300px;
+                height: auto;
+                min-height: 200px;
             }
         }
         .news-img-container img {
@@ -162,7 +161,7 @@
             font-size: 0.9rem;
             border-top: 3px solid var(--accent-purple);
             margin-top: 80px;
-            background: rgba(13, 17, 33, 0.85);
+            background: rgba(13, 17, 33, 0.9);
         }
     </style>
 </head>
@@ -174,97 +173,13 @@
         </header>
 
         <main id="news-feed" class="news-grid">
-
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div class="news-meta">Fri, 06 Nov 2026 10:00:00 -0500</div>
-                <a href="https://www.animenewsnetwork.com/this-week-in-games/2026-11-05/hacking-your-evercold-pikmin/.243468" target="_blank" class="news-title">This Week in Games - Hacking your Evercold Pikmin</a>
-                <p class="news-summary">Jean-Karlo has the update on the Goddess of Victory: NIKKE security exploit, a brand-new holiday, and the new classes coming to Final Fantasy XIV.</p>
+            <div class="news-card">
+                <div class="news-content-box">
+                    <span class="news-meta">System Online</span>
+                    <h3 class="news-title">Image Extraction Updated!</h3>
+                    <p class="news-summary">Trigger the workflow to pull real article thumbnails right into your news feed cards.</p>
+                </div>
             </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div class="news-meta">Fri, 06 Nov 2026 09:00:00 -0500</div>
-                <a href="https://www.animenewsnetwork.com/interview/2026-11-06/exclusive-dr-poro-the-manga-writer-behind-the-vermilion-mask/.243221" target="_blank" class="news-title">EXCLUSIVE: Dr. Poro, the Manga Writer Behind The Vermilion Mask</a>
-                <p class="news-summary">Dr. Poro and ANN discuss The Vermilion Mask's origins, how the characters reflect their creator, and why Dr. Poro always chooses the healer in RPGs.</p>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div class="news-meta">Fri, 06 Nov 2026 07:32:30 -0500</div>
-                <a href="https://www.animenewsnetwork.com/daily-briefs/2026-11-06/paradox-live-the-animation-film-announces-title-2027-opening/.243590" target="_blank" class="news-title">Paradox Live The Animation's Film Announces Title, 2027 Opening</a>
-                <p class="news-summary">The official website for the hip-hop-themed multimedia franchise presented the early teaser visual for its upcoming film project on Friday. The visual...</p>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div class="news-meta">Fri, 06 Nov 2026 06:00:00 -0500</div>
-                <a href="https://www.animenewsnetwork.com/news/2026-11-06/rainy-day-serenade-anime-teaser-reveals-cast-staff-april-2027-debut/.243586" target="_blank" class="news-title">Rainy Day Serenade Anime's Teaser Reveals Cast, Staff, April 2027 Debut</a>
-                <p class="news-summary">Yume Miyamoto, Takeo Ōtsuka star in anime</p>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div class="news-meta">Fri, 06 Nov 2026 05:31:34 -0500</div>
-                <a href="https://www.animenewsnetwork.com/news/2026-11-06/wound-and-bandage-anime-new-video-reveals-more-cast-and-staff-opening-song/.243587" target="_blank" class="news-title">Wound & Bandage Anime's New Video Reveals More Cast & Staff, Opening Song</a>
-                <p class="news-summary">Kō Bonkobara, Kengo Takanashi join cast</p>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div class="news-meta">Fri, 06 Nov 2026 04:21:42 -0500</div>
-                <a href="https://www.animenewsnetwork.com/news/2026-11-06/laid-back-camp-season-4-trailer-unveils-april-2027-debut/.243588" target="_blank" class="news-title">Laid-Back Camp Season 4's Trailer Unveils April 2027 Debut</a>
-                <p class="news-summary">Trailer also previews Asaka, Eri Sasaki's theme songs</p>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div class="news-meta">Fri, 06 Nov 2026 01:13:06 -0500</div>
-                <a href="https://www.animenewsnetwork.com/news/2026-11-06/he-does-a-body-good-webtoon-gets-animefesta-anime-in-january-2027/.243585" target="_blank" class="news-title">He Does a Body Good Webtoon Gets AnimeFesta Anime in January 2027</a>
-                <p class="news-summary">Atsushi Hizashi, Ion Momoyama, Towa Miyako, Milk Amai star in anime</p>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div class="news-meta">Fri, 06 Nov 2026 00:41:13 -0500</div>
-                <a href="https://www.animenewsnetwork.com/news/2026-11-06/booty-royale-never-go-down-without-a-fight-manga-gets-tv-anime-in-january/.243584" target="_blank" class="news-title">Booty Royale: Never Go Down Without a Fight! Manga Gets TV Anime in January</a>
-                <p class="news-summary">Hisako Tōjō, Nao Shiraki, Natsumi Murakami, Hikaru Iida star in risque martial arts anime</p>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div class="news-meta">Thu, 05 Nov 2026 23:00:00 -0500</div>
-                <a href="https://www.animenewsnetwork.com/interest/2026-11-05/dragon-ball-z-english-dub-composer-elected-as-texas-attorney-general/.243558" target="_blank" class="news-title">Dragon Ball Z's English Dub Composer Elected as Texas Attorney General</a>
-                <p class="news-summary">Will his power level go over 9,000?</p>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div class="news-meta">Thu, 05 Nov 2026 22:47:35 -0500</div>
-                <a href="https://www.animenewsnetwork.com/news/2026-11-05/amahara-33-years-old-single-girl-knight-captain-manga-gets-anime/.243579" target="_blank" class="news-title">Amahara's 33 Years Old Single Girl Knight Captain Manga Gets Anime</a>
-                <p class="news-summary">Digital Shokunin produces anime about overworked, sex-starved knight captain</p>
-            </div>
-        </div>
-        
         </main>
 
         <footer>
