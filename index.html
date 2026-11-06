@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>matchablepresence - Quick Anime News</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid #1e293b;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            color: #38bdf8;
+            letter-spacing: -1px;
+        }
+        p.subtitle {
+            color: #94a3b8;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .news-card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+        .news-card:hover {
+            transform: translateY(-2px);
+        }
+        .news-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            color: #f1f5f9;
+            text-decoration: none;
+            display: block;
+        }
+        .news-title:hover {
+            color: #38bdf8;
+        }
+        .news-meta {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+        .news-summary {
+            font-size: 1rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin: 0;
+        }
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-top: 1px solid #1e293b;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>matchablepresence</h1>
+            <p class="subtitle">Your lightning-fast anime news feed, straight from Anime News Network.</p>
+        </header>
+
+        <main id="news-feed">
+            <!-- News posts will appear here automatically -->
+            <div class="news-card">
+                <h3 class="news-title">System Initializing...</h3>
+                <p class="news-summary">Your automated anime news scraper is getting set up. Check back in a moment once the background script triggers!</p>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 matchablepresence. Powered by Netlify & GitHub Actions.</p>
+        </footer>
+    </div>
+</body>
+</html>
