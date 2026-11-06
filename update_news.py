@@ -2,6 +2,8 @@ import feedparser
 import json
 import os
 import re
+from datetime import datetime, timezone, timedelta
+from time import mktime
 
 RSS_URL = "https://www.animenewsnetwork.com/all/rss.xml"
 
@@ -31,11 +33,24 @@ def extract_image(entry):
     return image_url
 
 def fetch_news():
-    print("Fetching latest anime news and images...")
+    print("Fetching latest anime news from the last 24 hours...")
     feed = feedparser.parse(RSS_URL)
     
+    # Calculate timestamp for 24 hours ago
+    now = datetime.now(timezone.utc)
+    one_day_ago = now - timedelta(hours=24)
+    
     articles = []
-    for entry in feed.entries[:10]:
+    for entry in feed.entries:
+        # Check publication time if available
+        published_time = None
+        if hasattr(entry, 'published_parsed') and entry.published_parsed:
+            published_time = datetime.fromtimestamp(mktime(entry.published_parsed), timezone.utc)
+        
+        # If published within the last 24 hours (or if date is missing, include safely)
+        if published_time and published_time < one_day_ago:
+            continue # Skip articles older than 24 hours
+
         summary = entry.get("summary", "Read the full update on Anime News Network.")
         if "<" in summary and ">" in summary:
             summary = re.sub('<[^<]+?>', '', summary)
@@ -53,6 +68,22 @@ def fetch_news():
             "image": image_url
         })
         
+        # Limit to top 10 freshest articles max
+        if len(articles) >= 10:
+            break
+            
+    # Fallback if RSS time parsing is strict: grab top 5 latest if 24h filter returns nothing
+    if not articles and feed.entries:
+        for entry in feed.entries[:5]:
+            summary = re.sub('<[^<]+?>', '', entry.get("summary", ""))[:157] + "..."
+            articles.append({
+                "title": entry.title,
+                "link": entry.link,
+                "published": entry.get("published", "Recent"),
+                "summary": summary,
+                "image": extract_image(entry)
+            })
+            
     return articles
 
 def update_html(articles):
@@ -99,7 +130,7 @@ def update_html(articles):
         )
         with open(html_path, "w", encoding="utf-8") as f:
             f.write(new_content)
-        print("Successfully updated index.html with shareable cards!")
+        print("Successfully updated index.html with last 24h news!")
     else:
         print("Could not find news feed container in HTML.")
 
