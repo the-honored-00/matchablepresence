@@ -1,128 +1,148 @@
-import feedparser
+#!/usr/bin/env python3
+"""Fetch the Anime News Network RSS feed and write news.json for the site."""
+
+import html
 import json
+import logging
 import os
 import re
+import sys
+import tempfile
+from calendar import timegm
+from datetime import datetime, timezone
+
+import feedparser
+import requests
 
 RSS_URL = "https://www.animenewsnetwork.com/all/rss.xml"
+USER_AGENT = "matchablepresence-news/1.0"
+TIMEOUT = 15
+MAX_ITEMS = 60
+MAX_SUMMARY = 140
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_PATH = os.path.join(BASE_DIR, "news.json")
+
+IMAGE_EXT = re.compile(r"\.(jpe?g|png|webp|gif)(\?|$)", re.IGNORECASE)
+DEFAULT_SUMMARY = "Read the full update on Anime News Network."
+
+log = logging.getLogger("news")
+
+def _looks_like_image(url, mime=""):
+    return bool(url) and (mime.startswith("image/") or bool(IMAGE_EXT.search(url)))
 
 def extract_image(entry):
-    if hasattr(entry, 'media_content') and entry.media_content:
-        for media in entry.media_content:
-            url = media.get('url', '')
-            if url and any(ext in url.lower() for ext in ['.jpg', '.jpeg', '.png', '.webp']):
-                return url
+    for media in entry.get("media_content", []) or []:
+        url = media.get("url", "")
+        if _looks_like_image(url, media.get("type", "")):
+            return url
 
-    if hasattr(entry, 'media_thumbnail') and entry.media_thumbnail:
-        for thumb in entry.media_thumbnail:
-            url = thumb.get('url', '')
-            if url:
-                return url
+    for thumb in entry.get("media_thumbnail", []) or []:
+        if thumb.get("url"):
+            return thumb["url"]
 
-    if hasattr(entry, 'enclosures') and entry.enclosures:
-        for enc in entry.enclosures:
-            url = enc.get('href', '')
-            if url and any(ext in url.lower() for ext in ['.jpg', '.jpeg', '.png', '.webp']):
-                return url
+    for enc in entry.get("enclosures", []) or []:
+        url = enc.get("href", "")
+        if _looks_like_image(url, enc.get("type", "")):
+            return url
 
-    raw_html = ""
-    if hasattr(entry, 'content') and entry.content:
-        raw_html = entry.content[0].get('value', '')
-    elif hasattr(entry, 'summary'):
-        raw_html = entry.summary
-        
-    if raw_html:
-        img_match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', raw_html)
-        if img_match:
-            image_url = img_match.group(1)
-            if image_url.startswith('//'):
-                image_url = 'https:' + image_url
-            return image_url
-            
+    raw = ""
+    if entry.get("content"):
+        raw = entry.content[0].get("value", "")
+    raw = raw or entry.get("summary", "")
+    match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', raw)
+    if match:
+        url = match.group(1)
+        return "https:" + url if url.startswith("//") else url
+
     return ""
 
-def fetch_news():
-    print("Fetching latest anime news...")
-    feed = feedparser.parse(RSS_URL)
-    
-    articles = []
-    for entry in feed.entries[:25]:
-        summary = entry.get("summary", "Read the full update on Anime News Network.")
-        if "<" in summary and ">" in summary:
-            summary = re.sub('<[^<]+?>', '', summary)
-        
-        if len(summary) > 130:
-            summary = summary[:127] + "..."
+def clean_text(text):
+    text = re.sub(r"<[^>]+>", " ", text or "")
+    text = html.unescape(text)
+    return re.sub(r"\s+", " ", text).strip()
 
-        image_url = extract_image(entry)
+def shorten(text, limit=MAX_SUMMARY):
+    if len(text) <= limit:
+        return text
+    cut = text[:limit].rsplit(" ", 1)[0] or text[:limit]
+    return cut.rstrip(".,;:") + "…"
 
-        articles.append({
-            "title": entry.title,
-            "link": entry.link,
-            "published": entry.get("published", "Recent"),
-            "summary": summary,
-            "image": image_url
-        })
-        
-    return articles
+def parse_date(entry):
+    parsed = entry.get("published_parsed") or entry.get("updated_parsed")
+    if parsed:
+        return datetime.fromtimestamp(timegm(parsed), tz=timezone.utc).isoformat()
+    return datetime.now(timezone.utc).isoformat()
 
-def update_html(new_articles):
-    html_path = "index.html"
-    if not os.path.exists(html_path):
-        print("index.html not found!")
-        return
+def fetch_items():
+    response = requests.get(RSS_URL, headers={"User-Agent": USER_AGENT}, timeout=TIMEOUT)
+    response.raise_for_status()
 
-    with open(html_path, "r", encoding="utf-8") as f:
-        content = f.read()
+    feed = feedparser.parse(response.content)
+    if feed.bozo and not feed.entries:
+        raise RuntimeError(f"Could not parse feed: {feed.get('bozo_exception')}")
 
-    marker_start = '<main id="news-feed" class="news-grid">'
-    marker_end = '</main>'
-    
-    start_idx = content.find(marker_start)
-    end_idx = content.find(marker_end)
-    
-    if start_idx == -1 or end_idx == -1:
-        print("Could not find news feed container in HTML.")
-        return
-
-    existing_cards_html = content[start_idx + len(marker_start):end_idx].strip()
-    
-    new_cards_html = ""
-    for art in new_articles:
-        if art['title'] in existing_cards_html:
+    items = []
+    for entry in feed.entries:
+        link = (entry.get("link") or "").strip()
+        title = clean_text(entry.get("title", ""))
+        if not link or not title:
             continue
-            
-        img_tag = f'<div class="news-img-container"><img src="{art["image"]}" alt="Thumbnail" crossorigin="anonymous" loading="lazy"></div>' if art['image'] else ''
-        
-        new_cards_html += f"""
-        <div class="news-card">
-            {img_tag}
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">{art['published']}</div>
-                    <a href="{art['link']}" target="_blank" class="news-title">{art['title']}</a>
-                    <p class="news-summary">{art['summary']}</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        """
 
-    combined_feed = new_cards_html + "\n        " + existing_cards_html
+        summary = clean_text(entry.get("summary", "")) or DEFAULT_SUMMARY
+        items.append({
+            "id": link,
+            "title": title,
+            "link": link,
+            "summary": shorten(summary),
+            "image": extract_image(entry),
+            "published": parse_date(entry),
+        })
+    return items
 
-    new_content = (
-        content[:start_idx + len(marker_start)] +
-        "\n" + combined_feed + "\n        " +
-        content[end_idx:]
-    )
+def load_existing():
+    if not os.path.exists(DATA_PATH):
+        return []
+    try:
+        with open(DATA_PATH, encoding="utf-8") as f:
+            return json.load(f).get("items", [])
+    except (json.JSONDecodeError, OSError) as exc:
+        log.warning("Could not read existing news.json (%s); starting fresh.", exc)
+        return []
 
-    with open(html_path, "w", encoding="utf-8") as f:
-        f.write(new_content)
-    print("Successfully updated index.html with magazine layout!")
+def merge(new_items, old_items):
+    by_id = {}
+    for item in old_items + new_items:
+        by_id[item["id"]] = item
+    merged = sorted(by_id.values(), key=lambda i: i["published"], reverse=True)
+    return merged[:MAX_ITEMS]
+
+def save(items):
+    payload = {
+        "updated": datetime.now(timezone.utc).isoformat(),
+        "items": items,
+    }
+    fd, tmp_path = tempfile.mkstemp(dir=BASE_DIR, suffix=".tmp")
+    with os.fdopen(fd, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+    os.replace(tmp_path, DATA_PATH)
+
+def main():
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+    try:
+        new_items = fetch_items()
+    except Exception:
+        log.exception("Fetching the feed failed")
+        return 1
+
+    if not new_items:
+        log.error("Feed returned no usable items")
+        return 1
+
+    items = merge(new_items, load_existing())
+    save(items)
+    log.info("Saved %d items (%d fetched this run)", len(items), len(new_items))
+    return 0
 
 if __name__ == "__main__":
-    news = fetch_news()
-    if news:
-        update_html(news)
+    sys.exit(main())
