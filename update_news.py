@@ -6,30 +6,18 @@ import re
 RSS_URL = "https://www.animenewsnetwork.com/all/rss.xml"
 
 def extract_image(entry):
-    image_url = ""
-    
-    # 1. Check media_content
     if hasattr(entry, 'media_content') and entry.media_content:
         for media in entry.media_content:
             url = media.get('url', '')
             if url and any(ext in url.lower() for ext in ['.jpg', '.jpeg', '.png', '.webp']):
                 return url
 
-    # 2. Check media_thumbnail
     if hasattr(entry, 'media_thumbnail') and entry.media_thumbnail:
         for thumb in entry.media_thumbnail:
             url = thumb.get('url', '')
             if url:
                 return url
 
-    # 3. Check enclosures
-    if hasattr(entry, 'enclosures') and entry.enclosures:
-        for enc in entry.enclosures:
-            url = enc.get('href', '')
-            if url and any(ext in url.lower() for ext in ['.jpg', '.jpeg', '.png', '.webp']):
-                return url
-
-    # 4. Fallback: Parse <img> tag from summary or content
     raw_html = ""
     if hasattr(entry, 'content') and entry.content:
         raw_html = entry.content[0].get('value', '')
@@ -56,8 +44,8 @@ def fetch_news():
         if "<" in summary and ">" in summary:
             summary = re.sub('<[^<]+?>', '', summary)
         
-        if len(summary) > 160:
-            summary = summary[:157] + "..."
+        if len(summary) > 130:
+            summary = summary[:127] + "..."
 
         image_url = extract_image(entry)
 
@@ -97,7 +85,7 @@ def update_html(new_articles):
         if art['title'] in existing_cards_html:
             continue
             
-        img_tag = f'<div class="news-img-container"><img src="{art["image"]}" alt="Article thumbnail" crossorigin="anonymous" loading="lazy"></div>' if art['image'] else ''
+        img_tag = f'<div class="news-img-container"><img src="{art["image"]}" alt="Thumbnail" crossorigin="anonymous" loading="lazy"></div>' if art['image'] else ''
         
         new_cards_html += f"""
         <div class="news-card">
@@ -126,7 +114,7 @@ def update_html(new_articles):
 
     with open(html_path, "w", encoding="utf-8") as f:
         f.write(new_content)
-    print("Successfully updated index.html with robust image scraping and archive support!")
+    print("Successfully updated index.html with magazine layout!")
 
 if __name__ == "__main__":
     news = fetch_news()
