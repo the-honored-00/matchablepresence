@@ -7,35 +7,51 @@ RSS_URL = "https://www.animenewsnetwork.com/all/rss.xml"
 
 def extract_image(entry):
     image_url = ""
-    if 'media_content' in entry and len(entry.media_content) > 0:
-        image_url = entry.media_content[0].get('url', '')
-        if image_url:
-            return image_url
-            
-    if 'media_thumbnail' in entry and len(entry.media_thumbnail) > 0:
-        image_url = entry.media_thumbnail[0].get('url', '')
-        if image_url:
-            return image_url
+    
+    # 1. Check media_content
+    if hasattr(entry, 'media_content') and entry.media_content:
+        for media in entry.media_content:
+            url = media.get('url', '')
+            if url and any(ext in url.lower() for ext in ['.jpg', '.jpeg', '.png', '.webp']):
+                return url
 
+    # 2. Check media_thumbnail
+    if hasattr(entry, 'media_thumbnail') and entry.media_thumbnail:
+        for thumb in entry.media_thumbnail:
+            url = thumb.get('url', '')
+            if url:
+                return url
+
+    # 3. Check enclosures
+    if hasattr(entry, 'enclosures') and entry.enclosures:
+        for enc in entry.enclosures:
+            url = enc.get('href', '')
+            if url and any(ext in url.lower() for ext in ['.jpg', '.jpeg', '.png', '.webp']):
+                return url
+
+    # 4. Fallback: Parse <img> tag from summary or content
     raw_html = ""
-    if 'content' in entry and len(entry.content) > 0:
+    if hasattr(entry, 'content') and entry.content:
         raw_html = entry.content[0].get('value', '')
-    elif 'summary' in entry:
+    elif hasattr(entry, 'summary'):
         raw_html = entry.summary
         
     if raw_html:
         img_match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', raw_html)
         if img_match:
             image_url = img_match.group(1)
+            if image_url.startswith('//'):
+                image_url = 'https:' + image_url
+            return image_url
             
-    return image_url
+    return ""
 
 def fetch_news():
     print("Fetching latest anime news...")
     feed = feedparser.parse(RSS_URL)
     
     articles = []
-    for entry in feed.entries[:20]: # Fetch top 20 items per run
+    for entry in feed.entries[:25]:
         summary = entry.get("summary", "Read the full update on Anime News Network.")
         if "<" in summary and ">" in summary:
             summary = re.sub('<[^<]+?>', '', summary)
@@ -100,7 +116,6 @@ def update_html(new_articles):
         </div>
         """
 
-    # Combine new articles with existing history archive
     combined_feed = new_cards_html + "\n        " + existing_cards_html
 
     new_content = (
@@ -111,7 +126,7 @@ def update_html(new_articles):
 
     with open(html_path, "w", encoding="utf-8") as f:
         f.write(new_content)
-    print("Successfully updated index.html with pagination archive support!")
+    print("Successfully updated index.html with robust image scraping and archive support!")
 
 if __name__ == "__main__":
     news = fetch_news()
