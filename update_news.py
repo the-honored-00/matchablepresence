@@ -18,6 +18,12 @@ def extract_image(entry):
             if url:
                 return url
 
+    if hasattr(entry, 'enclosures') and entry.enclosures:
+        for enc in entry.enclosures:
+            url = enc.get('href', '')
+            if url and any(ext in url.lower() for ext in ['.jpg', '.jpeg', '.png', '.webp']):
+                return url
+
     raw_html = ""
     if hasattr(entry, 'content') and entry.content:
         raw_html = entry.content[0].get('value', '')
