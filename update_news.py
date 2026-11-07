@@ -2,13 +2,12 @@ import feedparser
 import json
 import os
 import re
-from datetime import datetime, timezone, timedelta
-from time import mktime
 
 RSS_URL = "https://www.animenewsnetwork.com/all/rss.xml"
 
 def extract_image(entry):
     image_url = ""
+    # 1. Check media content / thumbnails
     if 'media_content' in entry and len(entry.media_content) > 0:
         image_url = entry.media_content[0].get('url', '')
         if image_url:
@@ -19,6 +18,7 @@ def extract_image(entry):
         if image_url:
             return image_url
 
+    # 2. Check summary or content HTML for an <img> tag
     raw_html = ""
     if 'content' in entry and len(entry.content) > 0:
         raw_html = entry.content[0].get('value', '')
@@ -33,24 +33,11 @@ def extract_image(entry):
     return image_url
 
 def fetch_news():
-    print("Fetching latest anime news from the last 24 hours...")
+    print("Fetching latest anime news...")
     feed = feedparser.parse(RSS_URL)
     
-    # Calculate timestamp for 24 hours ago
-    now = datetime.now(timezone.utc)
-    one_day_ago = now - timedelta(hours=24)
-    
     articles = []
-    for entry in feed.entries:
-        # Check publication time if available
-        published_time = None
-        if hasattr(entry, 'published_parsed') and entry.published_parsed:
-            published_time = datetime.fromtimestamp(mktime(entry.published_parsed), timezone.utc)
-        
-        # If published within the last 24 hours (or if date is missing, include safely)
-        if published_time and published_time < one_day_ago:
-            continue # Skip articles older than 24 hours
-
+    for entry in feed.entries[:15]:
         summary = entry.get("summary", "Read the full update on Anime News Network.")
         if "<" in summary and ">" in summary:
             summary = re.sub('<[^<]+?>', '', summary)
@@ -68,25 +55,9 @@ def fetch_news():
             "image": image_url
         })
         
-        # Limit to top 10 freshest articles max
-        if len(articles) >= 10:
-            break
-            
-    # Fallback if RSS time parsing is strict: grab top 5 latest if 24h filter returns nothing
-    if not articles and feed.entries:
-        for entry in feed.entries[:5]:
-            summary = re.sub('<[^<]+?>', '', entry.get("summary", ""))[:157] + "..."
-            articles.append({
-                "title": entry.title,
-                "link": entry.link,
-                "published": entry.get("published", "Recent"),
-                "summary": summary,
-                "image": extract_image(entry)
-            })
-            
     return articles
 
-def update_html(articles):
+def update_html(new_articles):
     html_path = "index.html"
     if not os.path.exists(html_path):
         print("index.html not found!")
@@ -95,11 +66,29 @@ def update_html(articles):
     with open(html_path, "r", encoding="utf-8") as f:
         content = f.read()
 
-    cards_html = ""
-    for art in articles:
+    marker_start = '<main id="news-feed" class="news-grid">'
+    marker_end = '</main>'
+    
+    start_idx = content.find(marker_start)
+    end_idx = content.find(marker_end)
+    
+    if start_idx == -1 or end_idx == -1:
+        print("Could not find news feed container in HTML.")
+        return
+
+    # Extract existing cards already on the site so we don't lose them
+    existing_cards_html = content[start_idx + len(marker_start):end_idx].strip()
+    
+    # Generate HTML for newly fetched articles
+    new_cards_html = ""
+    for art in new_articles:
+        # Avoid duplicate titles if they already exist in the HTML
+        if art['title'] in existing_cards_html:
+            continue
+            
         img_tag = f'<div class="news-img-container"><img src="{art["image"]}" alt="Article thumbnail" crossorigin="anonymous" loading="lazy"></div>' if art['image'] else ''
         
-        cards_html += f"""
+        new_cards_html += f"""
         <div class="news-card">
             {img_tag}
             <div class="news-content-box">
@@ -116,23 +105,18 @@ def update_html(articles):
         </div>
         """
 
-    marker_start = '<main id="news-feed" class="news-grid">'
-    marker_end = '</main>'
-    
-    start_idx = content.find(marker_start)
-    end_idx = content.find(marker_end)
-    
-    if start_idx != -1 and end_idx != -1:
-        new_content = (
-            content[:start_idx + len(marker_start)] +
-            "\n" + cards_html + "\n        " +
-            content[end_idx:]
-        )
-        with open(html_path, "w", encoding="utf-8") as f:
-            f.write(new_content)
-        print("Successfully updated index.html with last 24h news!")
-    else:
-        print("Could not find news feed container in HTML.")
+    # Combine new articles on top of existing ones, keeping up to 30 total items
+    combined_feed = new_cards_html + "\n        " + existing_cards_html
+
+    new_content = (
+        content[:start_idx + len(marker_start)] +
+        "\n" + combined_feed + "\n        " +
+        content[end_idx:]
+    )
+
+    with open(html_path, "w", encoding="utf-8") as f:
+        f.write(new_content)
+    print("Successfully updated index.html while keeping history and images!")
 
 if __name__ == "__main__":
     news = fetch_news()
