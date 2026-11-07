@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,900&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
-    <!-- Include html2canvas for converting news cards into downloadable images -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
@@ -157,7 +156,6 @@
             line-height: 1.6;
             margin: 0 0 15px 0;
         }
-        /* Share button & Watermark footer inside card */
         .card-actions {
             display: flex;
             justify-content: space-between;
@@ -191,6 +189,43 @@
             -webkit-text-fill-color: transparent;
             letter-spacing: 0.5px;
         }
+        
+        /* Neon Pagination Button Styling */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 50px;
+            align-items: center;
+        }
+        .page-btn {
+            background: rgba(19, 27, 48, 0.9);
+            border: 2px solid var(--accent-purple);
+            color: var(--text-main);
+            padding: 10px 18px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .page-btn:hover:not(:disabled) {
+            background: var(--accent-purple);
+            border-color: var(--accent-green);
+            box-shadow: 0 0 15px rgba(147, 51, 234, 0.5);
+        }
+        .page-btn.active {
+            background: var(--accent-green);
+            color: var(--bg-dark);
+            border-color: var(--accent-green);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+        }
+        .page-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
         footer {
             text-align: center;
             padding: 60px 0;
@@ -209,162 +244,16 @@
             <p class="subtitle">⚡ High-Voltage Anime News Hub</p>
         </header>
 
+        <!-- News Feed Container -->
         <main id="news-feed" class="news-grid">
-
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 21:00:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/interest/2026-11-06/dragon-dogma-2-dark-arisen-game-collaborates-with-delicious-in-dungeon/.243563" target="_blank" class="news-title">Dragon's Dogma 2: Dark Arisen Game Collaborates With Delicious in Dungeon</a>
-                    <p class="news-summary">What sort of wild new recipes will Laios come up with?</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 19:30:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/review/magic-knight-rayearth/episode-5/.243594" target="_blank" class="news-title">Magic Knight Rayearth ‒ Episode 5</a>
-                    <p class="news-summary">Even Fuu knows that Fuu is the best character here. Queen.</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 18:51:13 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/news/2026-11-06/hana-kimi-manga-gets-new-live-action-series-1st-stage-play/.243601" target="_blank" class="news-title">Hana-Kimi Manga Gets New Live-Action Series, 1st Stage Play</a>
-                    <p class="news-summary">Hana Kawamura, The Rampage's Makoto Hasegawa & Itsuki Fujiwara star in both</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 17:00:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/news/2026-11-06/north-american-anime-manga-releases-november-1-7/.243459" target="_blank" class="news-title">North American Anime, Manga Releases, November 1-7</a>
-                    <p class="news-summary">KPop Demon Hunters animated film; Black Jack, Full Metal Panic! Family manga ship</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 16:30:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/review/fx-fighter-kurumi-chan/episode-6/.243581" target="_blank" class="news-title">FX Fighter Kurumi-chan ‒ Episode 6</a>
-                    <p class="news-summary">It's like slapstick, watching a stupid character fail, then succumb to the consequences—if instead of comically tripping down a flight of stairs, she was los...</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 16:00:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/news/2026-11-06/odd-taxi-manga-author-launches-new-rematch-with-you-manga-in-late-november/.243576" target="_blank" class="news-title">Odd Taxi Manga Author Launches New Rematch With You Manga in Late November</a>
-                    <p class="news-summary">Abaraya previously published dōjin version of manga at Comitia in November 2025</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 15:30:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/review/steel-ball-run-jojo-bizarre-adventure/episode-8/.243593" target="_blank" class="news-title">STEEL BALL RUN JoJo's Bizarre Adventure ‒ Episode 8</a>
-                    <p class="news-summary">Intertwined with Johnny's growing dedication to walking again, the fight that propels much of this episode forward feels both narratively fulfilling and natu...</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 14:52:04 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/preview-guide/2026/fall/devils-crest/.243578" target="_blank" class="news-title">The Fall 2026 Anime Preview Guide - Devils' Crest</a>
-                    <p class="news-summary">The creative mind behind Sword Art Online has a brand-new anime series. Read our reviews of Reki Kawahara's latest deadly VRMMORPG story!</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 14:30:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/review/devils-crest/episodes-1-2/.243580" target="_blank" class="news-title">Devils' Crest ‒ Episodes 1-2</a>
-                    <p class="news-summary">The ever-growing pile of questions is already staggeringly large. I wouldn't call this show captivating so far, but I am interested in seeing what it becomes...</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 12:00:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/review/petals-of-reincarnation-anime-series/.243049" target="_blank" class="news-title">Petals of Reincarnation Anime Series Review</a>
-                    <p class="news-summary">Petals of Reincarnation is aimless in its anger, tries to do way too much, and doesn’t seem to care much (if at all) about what it’s communicating.</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
+            <!-- News cards will be dynamically paginated here -->
         </main>
 
+        <!-- Pagination Controls -->
+        <div id="pagination-controls" class="pagination"></div>
+
         <footer>
-            <p>&copy; 2026 matchablepresence. Powered by Netlify & GitHub Actions.</p>
+            <p>&copy; 2026 matchablepresence. Powered by Netlify, Vercel & GitHub Actions.</p>
         </footer>
     </div>
 
@@ -373,19 +262,16 @@
             const card = button.closest('.news-card');
             const btn = button;
             btn.innerText = "Generating...";
-            
-            // Temporarily hide the button during snapshot capture
             btn.style.display = 'none';
 
             html2canvas(card, {
-                scale: 2, // High resolution
-                useCORS: true, // Handle external images safely
+                scale: 2,
+                useCORS: true,
                 backgroundColor: '#070913'
             }).then(canvas => {
                 btn.style.display = 'inline-block';
                 btn.innerText = "📸 Share Card";
 
-                // Convert canvas to image download
                 const link = document.createElement('a');
                 link.download = 'matchablepresence-news.png';
                 link.href = canvas.toDataURL('image/png');
@@ -397,6 +283,56 @@
                 alert("Could not generate image. Try again!");
             });
         }
+
+        // Pagination Logic
+        document.addEventListener("DOMContentLoaded", () => {
+            const feed = document.getElementById('news-feed');
+            const controls = document.getElementById('pagination-controls');
+            const cards = Array.from(feed.getElementsByClassName('news-card'));
+            
+            const itemsPerPage = 5; // Shows 5 news cards per page
+            let currentPage = 1;
+            const totalPages = Math.ceil(cards.length / itemsPerPage);
+
+            function showPage(page) {
+                currentPage = page;
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+
+                // Hide all cards, then show only the ones for the current page
+                cards.forEach((card, index) => {
+                    card.style.display = (index >= start && index < end) ? 'flex' : 'none';
+                });
+
+                renderControls();
+                window.scrollTo({ top: 300, behavior: 'smooth' });
+            }
+
+            function renderControls() {
+                if (totalPages <= 1) {
+                    controls.innerHTML = '';
+                    return;
+                }
+
+                let html = `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})">◀ Prev</button>`;
+                
+                for (let i = 1; i <= totalPages; i++) {
+                    html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+                }
+
+                html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})">Next ▶</button>`;
+                controls.innerHTML = html;
+            }
+
+            window.changePage = function(page) {
+                if (page < 1 || page > totalPages) return;
+                showPage(page);
+            };
+
+            if (cards.length > 0) {
+                showPage(1);
+            }
+        });
     </script>
 </body>
 </html>
