@@ -24,7 +24,6 @@
             margin: 0;
             padding: 0;
         }
-        /* Top Navigation Bar */
         nav {
             background: #ffffff;
             border-bottom: 1px solid var(--border-color);
@@ -59,8 +58,6 @@
         .nav-links span:hover {
             color: var(--accent-purple);
         }
-
-        /* Main Wrapper */
         .wrapper {
             max-width: 1280px;
             margin: 30px auto;
@@ -74,8 +71,6 @@
                 grid-template-columns: 1fr;
             }
         }
-
-        /* Featured Hero Article */
         .hero-banner {
             background: #0f172a;
             color: #ffffff;
@@ -132,8 +127,6 @@
             min-height: 280px;
             object-fit: cover;
         }
-
-        /* Content Sections */
         .main-feed-area {
             display: flex;
             flex-direction: column;
@@ -148,8 +141,6 @@
             border-left: 4px solid var(--accent-purple);
             padding-left: 10px;
         }
-
-        /* News Cards Grid */
         .news-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
@@ -243,8 +234,6 @@
             color: var(--text-muted);
             letter-spacing: 0.5px;
         }
-
-        /* Sidebar Styling */
         aside {
             display: flex;
             flex-direction: column;
@@ -294,8 +283,6 @@
         .trending-text:hover {
             color: var(--accent-purple);
         }
-
-        /* Pagination */
         .pagination {
             display: flex;
             justify-content: center;
@@ -321,7 +308,6 @@
             opacity: 0.4;
             cursor: not-allowed;
         }
-
         footer {
             text-align: center;
             padding: 40px 0;
@@ -347,405 +333,20 @@
 
     <div class="wrapper">
         <div class="main-feed-area">
-            <!-- Hero Spotlight Section -->
-            <div id="hero-spotlight">
-                <!-- Dynamically filled hero article -->
-            </div>
-
+            <div id="hero-spotlight"></div>
             <div class="section-title">Latest Updates</div>
             
-            <!-- News Grid Container -->
             <main id="news-feed" class="news-grid">
+                <!-- News cards injected here -->
+            </main>
 
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 21:00:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/interest/2026-11-06/dragon-dogma-2-dark-arisen-game-collaborates-with-delicious-in-dungeon/.243563" target="_blank" class="news-title">Dragon's Dogma 2: Dark Arisen Game Collaborates With Delicious in Dungeon</a>
-                    <p class="news-summary">What sort of wild new recipes will Laios come up with?</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 19:30:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/review/magic-knight-rayearth/episode-5/.243594" target="_blank" class="news-title">Magic Knight Rayearth ‒ Episode 5</a>
-                    <p class="news-summary">Even Fuu knows that Fuu is the best character here. Queen.</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 18:51:13 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/news/2026-11-06/hana-kimi-manga-gets-new-live-action-series-1st-stage-play/.243601" target="_blank" class="news-title">Hana-Kimi Manga Gets New Live-Action Series, 1st Stage Play</a>
-                    <p class="news-summary">Hana Kawamura, The Rampage's Makoto Hasegawa & Itsuki Fujiwara star in both</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 17:00:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/news/2026-11-06/north-american-anime-manga-releases-november-1-7/.243459" target="_blank" class="news-title">North American Anime, Manga Releases, November 1-7</a>
-                    <p class="news-summary">KPop Demon Hunters animated film; Black Jack, Full Metal Panic! Family manga ship</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 16:30:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/review/fx-fighter-kurumi-chan/episode-6/.243581" target="_blank" class="news-title">FX Fighter Kurumi-chan ‒ Episode 6</a>
-                    <p class="news-summary">It's like slapstick, watching a stupid character fail, then succumb to the consequences—if instead of comically tripping down a...</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 16:00:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/news/2026-11-06/odd-taxi-manga-author-launches-new-rematch-with-you-manga-in-late-november/.243576" target="_blank" class="news-title">Odd Taxi Manga Author Launches New Rematch With You Manga in Late November</a>
-                    <p class="news-summary">Abaraya previously published dōjin version of manga at Comitia in November 2025</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 15:30:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/review/steel-ball-run-jojo-bizarre-adventure/episode-8/.243593" target="_blank" class="news-title">STEEL BALL RUN JoJo's Bizarre Adventure ‒ Episode 8</a>
-                    <p class="news-summary">Intertwined with Johnny's growing dedication to walking again, the fight that propels much of this episode forward feels both n...</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 14:52:04 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/preview-guide/2026/fall/devils-crest/.243578" target="_blank" class="news-title">The Fall 2026 Anime Preview Guide - Devils' Crest</a>
-                    <p class="news-summary">The creative mind behind Sword Art Online has a brand-new anime series. Read our reviews of Reki Kawahara's latest deadly VRMMO...</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 14:30:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/review/devils-crest/episodes-1-2/.243580" target="_blank" class="news-title">Devils' Crest ‒ Episodes 1-2</a>
-                    <p class="news-summary">The ever-growing pile of questions is already staggeringly large. I wouldn't call this show captivating so far, but I am intere...</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 12:00:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/review/petals-of-reincarnation-anime-series/.243049" target="_blank" class="news-title">Petals of Reincarnation Anime Series Review</a>
-                    <p class="news-summary">Petals of Reincarnation is aimless in its anger, tries to do way too much, and doesn’t seem to care much (if at all) about what...</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 10:00:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/this-week-in-games/2026-11-06/hacking-your-evercold-pikmin/.243468" target="_blank" class="news-title">This Week in Games - Hacking your Evercold Pikmin</a>
-                    <p class="news-summary">Jean-Karlo has the update on the Goddess of Victory: NIKKE security exploit, a brand-new holiday, and the new classes coming to...</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 09:00:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/interview/2026-11-06/exclusive-dr-poro-the-manga-writer-behind-the-vermilion-mask/.243221" target="_blank" class="news-title">EXCLUSIVE: Dr. Poro, the Manga Writer Behind The Vermilion Mask</a>
-                    <p class="news-summary">Dr. Poro and ANN discuss The Vermilion Mask's origins, how the characters reflect their creator, and why Dr. Poro always choose...</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 07:32:30 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/daily-briefs/2026-11-06/paradox-live-the-animation-film-announces-title-2027-opening/.243590" target="_blank" class="news-title">Paradox Live The Animation's Film Announces Title, 2027 Opening</a>
-                    <p class="news-summary">The official website for the hip-hop-themed multimedia franchise presented the early teaser visual for its upcoming film projec...</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 06:00:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/news/2026-11-06/rainy-day-serenade-anime-teaser-reveals-cast-staff-april-2027-debut/.243586" target="_blank" class="news-title">Rainy Day Serenade Anime's Teaser Reveals Cast, Staff, April 2027 Debut</a>
-                    <p class="news-summary">Yume Miyamoto, Takeo Ōtsuka star in anime</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 05:31:34 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/news/2026-11-06/wound-and-bandage-anime-new-video-reveals-more-cast-and-staff-opening-song/.243587" target="_blank" class="news-title">Wound & Bandage Anime's New Video Reveals More Cast & Staff, Opening Song</a>
-                    <p class="news-summary">Kō Bonkobara, Kengo Takanashi join cast</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 04:21:42 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/news/2026-11-06/laid-back-camp-season-4-trailer-unveils-april-2027-debut/.243588" target="_blank" class="news-title">Laid-Back Camp Season 4's Trailer Unveils April 2027 Debut</a>
-                    <p class="news-summary">Trailer also previews Asaka, Eri Sasaki's theme songs</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 01:13:06 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/news/2026-11-06/he-does-a-body-good-webtoon-gets-animefesta-anime-in-january-2027/.243585" target="_blank" class="news-title">He Does a Body Good Webtoon Gets AnimeFesta Anime in January 2027</a>
-                    <p class="news-summary">Atsushi Hizashi, Ion Momoyama, Towa Miyako, Milk Amai star in anime</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Fri, 06 Nov 2026 00:41:13 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/news/2026-11-06/booty-royale-never-go-down-without-a-fight-manga-gets-tv-anime-in-january/.243584" target="_blank" class="news-title">Booty Royale: Never Go Down Without a Fight! Manga Gets TV Anime in January</a>
-                    <p class="news-summary">Hisako Tōjō, Nao Shiraki, Natsumi Murakami, Hikaru Iida star in risque martial arts anime</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Thu, 05 Nov 2026 23:00:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/interest/2026-11-05/dragon-ball-z-english-dub-composer-elected-as-texas-attorney-general/.243558" target="_blank" class="news-title">Dragon Ball Z's English Dub Composer Elected as Texas Attorney General</a>
-                    <p class="news-summary">Will his power level go over 9,000?</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Thu, 05 Nov 2026 22:47:35 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/news/2026-11-05/amahara-33-years-old-single-girl-knight-captain-manga-gets-anime/.243579" target="_blank" class="news-title">Amahara's 33 Years Old Single Girl Knight Captain Manga Gets Anime</a>
-                    <p class="news-summary">Digital Shokunin produces anime about overworked, sex-starved knight captain</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Thu, 05 Nov 2026 20:00:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/news/2026-11-05/ninja-skooler-anime-unveils-pilot-film-images-song/.243571" target="_blank" class="news-title">Ninja Skooler Anime Unveils Pilot Film, Images, Song</a>
-                    <p class="news-summary">Shunsuke Takarai to direct light-hearted ninja anime based on concept by Kinema Citrus</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Thu, 05 Nov 2026 17:00:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/news/2026-11-05/playstation-5-reaches-over-97-million-shipments/.243569" target="_blank" class="news-title">PlayStation 5 Reaches Over 97 Million Shipments</a>
-                    <p class="news-summary">Sony shipped 4.2 million PS5 units for current fiscal year so far</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Thu, 05 Nov 2026 16:00:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/news/2026-11-05/nintendo-switch-2-sells-over-26-million-units/.243567" target="_blank" class="news-title">Nintendo Switch 2 Sells Over 26 Million Units</a>
-                    <p class="news-summary">Mario Kart World, Donkey Kong Bananza, Pokémon Legends: Z-A, Pokémon Pokopia top Switch 2 sales</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Thu, 05 Nov 2026 14:30:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/review/the-world-strongest-witch/episode-5/.243553" target="_blank" class="news-title">The World's Strongest Witch ‒ Episode 5</a>
-                    <p class="news-summary">This episode reminds audiences that the internet can be good if you bring the right attitude, and I think everyone could use th...</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="news-card">
-            
-            <div class="news-content-box">
-                <div>
-                    <div class="news-meta">Thu, 05 Nov 2026 14:30:00 -0500</div>
-                    <a href="https://www.animenewsnetwork.com/news/2026-11-05/im-kodama-kawashiri-manga-gets-live-action-short-series/.243570" target="_blank" class="news-title">I'm Kodama Kawashiri Manga Gets Live-Action Short Series</a>
-                    <p class="news-summary">Kanna Hashimoto stars in series starting on January 11</p>
-                </div>
-                <div class="card-actions">
-                    <button class="share-btn" onclick="shareCard(this)">📸 Share Card</button>
-                    <span class="card-watermark">MATCHABLEPRESENCE</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- News cards will be dynamically inserted here -->
-        </main>
-
-            <!-- Pagination Controls -->
             <div id="pagination-controls" class="pagination"></div>
         </div>
 
-        <!-- Sidebar Section -->
         <aside>
             <div class="sidebar-box">
                 <div class="sidebar-title">🔥 Trending Now</div>
-                <ul class="trending-list" id="trending-sidebar">
-                    <!-- Dynamically filled trending items -->
-                </ul>
+                <ul class="trending-list" id="trending-sidebar"></ul>
             </div>
         </aside>
     </div>
@@ -781,7 +382,6 @@
             });
         }
 
-        // Client-side pagination and dynamic splitting
         document.addEventListener("DOMContentLoaded", () => {
             const feed = document.getElementById('news-feed');
             const hero = document.getElementById('hero-spotlight');
@@ -789,10 +389,8 @@
             const controls = document.getElementById('pagination-controls');
             const cards = Array.from(feed.getElementsByClassName('news-card'));
 
-            // Set Hero to the first card if available
             if (cards.length > 0 && hero.innerHTML.trim() === '') {
                 const firstCard = cards[0];
-                // Convert first card into hero format
                 const titleEl = firstCard.querySelector('.news-title');
                 const summaryEl = firstCard.querySelector('.news-summary');
                 const imgEl = firstCard.querySelector('img');
@@ -814,11 +412,9 @@
                         ${imgSrc ? `<img src="${imgSrc}" class="hero-img" alt="Featured">` : ''}
                     </div>
                 `;
-                // Remove first card from main feed so it doesn't duplicate
                 cards[0].remove();
             }
 
-            // Populate Sidebar Trending (Top 5 titles)
             const remainingCards = Array.from(feed.getElementsByClassName('news-card'));
             let trendingHtml = '';
             remainingCards.slice(0, 5).forEach((card, idx) => {
@@ -836,7 +432,6 @@
             });
             trendingList.innerHTML = trendingHtml;
 
-            // Pagination setup for remaining cards
             const itemsPerPage = 6;
             let currentPage = 1;
             const totalPages = Math.ceil(remainingCards.length / itemsPerPage);
