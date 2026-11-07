@@ -7,7 +7,6 @@ RSS_URL = "https://www.animenewsnetwork.com/all/rss.xml"
 
 def extract_image(entry):
     image_url = ""
-    # 1. Check media content / thumbnails
     if 'media_content' in entry and len(entry.media_content) > 0:
         image_url = entry.media_content[0].get('url', '')
         if image_url:
@@ -18,7 +17,6 @@ def extract_image(entry):
         if image_url:
             return image_url
 
-    # 2. Check summary or content HTML for an <img> tag
     raw_html = ""
     if 'content' in entry and len(entry.content) > 0:
         raw_html = entry.content[0].get('value', '')
@@ -37,7 +35,7 @@ def fetch_news():
     feed = feedparser.parse(RSS_URL)
     
     articles = []
-    for entry in feed.entries[:15]:
+    for entry in feed.entries[:20]: # Fetch top 20 items per run
         summary = entry.get("summary", "Read the full update on Anime News Network.")
         if "<" in summary and ">" in summary:
             summary = re.sub('<[^<]+?>', '', summary)
@@ -76,13 +74,10 @@ def update_html(new_articles):
         print("Could not find news feed container in HTML.")
         return
 
-    # Extract existing cards already on the site so we don't lose them
     existing_cards_html = content[start_idx + len(marker_start):end_idx].strip()
     
-    # Generate HTML for newly fetched articles
     new_cards_html = ""
     for art in new_articles:
-        # Avoid duplicate titles if they already exist in the HTML
         if art['title'] in existing_cards_html:
             continue
             
@@ -105,7 +100,7 @@ def update_html(new_articles):
         </div>
         """
 
-    # Combine new articles on top of existing ones, keeping up to 30 total items
+    # Combine new articles with existing history archive
     combined_feed = new_cards_html + "\n        " + existing_cards_html
 
     new_content = (
@@ -116,7 +111,7 @@ def update_html(new_articles):
 
     with open(html_path, "w", encoding="utf-8") as f:
         f.write(new_content)
-    print("Successfully updated index.html while keeping history and images!")
+    print("Successfully updated index.html with pagination archive support!")
 
 if __name__ == "__main__":
     news = fetch_news()
