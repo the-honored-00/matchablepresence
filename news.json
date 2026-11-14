@@ -1,6 +1,22 @@
 {
-  "updated": "2026-11-14T16:24:41.087520+00:00",
+  "updated": "2026-11-14T22:04:05.064246+00:00",
   "items": [
+    {
+      "id": "https://www.animenewsnetwork.com/news/2026-11-14/kakao-openai-collaborate-on-ai-generated-short-animation-based-on-ryan-begins-webtoon/.243712",
+      "title": "Kakao, OpenAI Collaborate on AI-Generated Short Animation Based on Ryan Begins Webtoon",
+      "link": "https://www.animenewsnetwork.com/news/2026-11-14/kakao-openai-collaborate-on-ai-generated-short-animation-based-on-ryan-begins-webtoon/.243712",
+      "summary": "Production team stated they used approximately 1,500 prompts for single scene to achieve desired direction, emotional tone",
+      "image": "",
+      "published": "2026-11-14T18:15:00+00:00"
+    },
+    {
+      "id": "https://www.animenewsnetwork.com/review/detective-conan/the-clash-of-the-red-and-black/anime-series/.243437",
+      "title": "Detective Conan: The Clash of the Red and Black Anime Series Review",
+      "link": "https://www.animenewsnetwork.com/review/detective-conan/the-clash-of-the-red-and-black/anime-series/.243437",
+      "summary": "Conan Edogawa’s fight to uncover the one truth continues as a new possible ally reveals his connections to the devious Black Organization…",
+      "image": "",
+      "published": "2026-11-14T17:00:00+00:00"
+    },
     {
       "id": "https://www.animenewsnetwork.com/news/2026-11-14/classroom-of-the-elite-year-3-tops-oricon-light-novel-ranking-for-october/.243810",
       "title": "Classroom of the Elite: Year 3 Tops Oricon's Light Novel Ranking for October",
@@ -464,22 +480,6 @@
       "summary": "Series debuted in December 2025",
       "image": "",
       "published": "2026-11-12T03:52:30+00:00"
-    },
-    {
-      "id": "https://www.animenewsnetwork.com/news/2026-11-11/duel-masters-gt-manga-part-3-ends/.243737",
-      "title": "Duel Masters GT Manga's Part 3 Ends",
-      "link": "https://www.animenewsnetwork.com/news/2026-11-11/duel-masters-gt-manga-part-3-ends/.243737",
-      "summary": "3rd part launched on August 12",
-      "image": "",
-      "published": "2026-11-12T03:43:38+00:00"
-    },
-    {
-      "id": "https://www.animenewsnetwork.com/news/2026-11-11/tsugumi-project-anime-reveals-january-2027-premiere/.243744",
-      "title": "Tsugumi Project Anime Reveals January 2027 Premiere",
-      "link": "https://www.animenewsnetwork.com/news/2026-11-11/tsugumi-project-anime-reveals-january-2027-premiere/.243744",
-      "summary": "New visual also unveiled",
-      "image": "",
-      "published": "2026-11-12T03:38:17+00:00"
     }
   ]
 }
